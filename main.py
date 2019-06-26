@@ -27,26 +27,37 @@ def apply_compression(songs):
         lyric_b = lyric.encode()
         compressed_lyric_b = compress(lyric_b)
 
+        lyric_size = len(lyric_b)
+        compressed_lyric_size = len(compressed_lyric_b)
+
         song_data.append({
             'song': song,
             'author': author,
             'feat': feat,
             'lyric_p': lyric_p,
             'tokens': nof_tokens,
-            'size': len(lyric_b),
-            'compressed_size': len(compressed_lyric_b),
-            'compression_ratio': len(lyric_b) / len(compressed_lyric_b)
+            'size': lyric_size,
+            'compressed_size': compressed_lyric_size,
+            'compression_ratio': lyric_size / compressed_lyric_size,
+            'space_savings': 1 - (compressed_lyric_size / lyric_size),
         })
     return song_data
 
 
 def main():
     songs = load_songs()
-    compression_data = apply_compression(songs)
-    ratios = [(c['song'], c['compression_ratio']) for c in compression_data]
-    ratios = sorted(ratios, key=lambda x: x[1], reverse=True)
-    import pprint
-    print(pprint.pprint(ratios))
+    data = apply_compression(songs)
+    sorted_by_ratio = sorted(
+        data, key=lambda x: x['compression_ratio'], reverse=True)
+    for song_data in sorted_by_ratio:
+        print(
+            song_data['song'],
+            song_data['author'],
+            song_data['size'],
+            song_data['compressed_size'],
+            f'{song_data["compression_ratio"]:.2f}',
+            f'{song_data["space_savings"] * 100:.2f}%',
+        )
 
 
 if __name__ == '__main__':
