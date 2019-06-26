@@ -14,4 +14,5 @@ def deponctuate(text):
 
 def tokenize(text):
     text = text.replace('\n', ' ').replace('\r', '').lower()
-    return ' '.join(token for token in text.split(' ') if token)
+    tokens = [token for token in text.split(' ') if token]
+    return ' '.join(tokens), len(tokens)

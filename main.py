@@ -1,5 +1,6 @@
 import csv
 
+from compression.zlib import compress
 from text.processing import (
     deponctuate,
     tokenize,
@@ -7,22 +8,41 @@ from text.processing import (
 )
 
 
-def main():
-    songs = []
+def load_songs():
     with open('dataset/songs.csv', 'r') as dataset:
         dataset_reader = csv.reader(dataset, delimiter=',')
+        next(dataset_reader)  # who needs headers?
         for song in dataset_reader:
-            song, author, feat, lyric_path = song
-            songs.append((song, author, feat, lyric_path))
+            yield song
 
-    song_sample = songs[2]
-    *_, lyric_path = song_sample
 
-    with open(f'dataset/lyrics/{lyric_path}', 'r', encoding='utf-8') as lyric_f:
-        lyric = lyric_f.read()
+def apply_compression(songs):
+    lyric_base_p = 'dataset/lyrics/'
+    song_data = []
+    for song, author, feat, lyric_p in songs:
+        with open(f'{lyric_base_p}{lyric_p}', 'r', encoding='utf-8') as lyric_f:
+            lyric = lyric_f.read()
+        
+        lyric, nof_tokens = tokenize(deponctuate(unaccent(lyric)))
+        lyric_b = lyric.encode()
+        compressed_lyric_b = compress(lyric_b)
 
-    cleaned = tokenize(deponctuate(unaccent(lyric)))
-    print(cleaned)
+        song_data.append({
+            'song': song,
+            'author': author,
+            'feat': feat,
+            'lyric_p': lyric_p,
+            'tokens': nof_tokens,
+            'size': len(lyric_b),
+            'compressed_size': len(compressed_lyric_b)
+        })
+    return song_data
+
+
+def main():
+    songs = load_songs()
+    compression_data = apply_compression(songs)
+    print(compression_data)
 
 
 if __name__ == '__main__':
