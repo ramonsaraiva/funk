@@ -2,6 +2,7 @@ import csv
 
 from text.processing import (
     deponctuate,
+    tokenize,
     unaccent,
 )
 
@@ -14,15 +15,14 @@ def main():
             song, author, feat, lyric_path = song
             songs.append((song, author, feat, lyric_path))
 
-    song_sample = songs[1]
+    song_sample = songs[2]
     *_, lyric_path = song_sample
 
-    with open(f'dataset/lyrics/{lyric_path}', 'rb') as lyric_f:
-        lyric_b = lyric_f.read()
+    with open(f'dataset/lyrics/{lyric_path}', 'r', encoding='utf-8') as lyric_f:
+        lyric = lyric_f.read()
 
-    unaccented = unaccent(lyric_b.decode('utf-8'))
-    deponctuated = deponctuate(unaccented)
-    print(deponctuated)
+    cleaned = tokenize(deponctuate(unaccent(lyric)))
+    print(cleaned)
 
 
 if __name__ == '__main__':

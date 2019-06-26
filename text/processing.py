@@ -10,3 +10,8 @@ def unaccent(text):
 def deponctuate(text):
     translator = str.maketrans('', '', string.punctuation)
     return text.translate(translator)
+
+
+def tokenize(text):
+    text = text.replace('\n', ' ').replace('\r', '').lower()
+    return ' '.join(token for token in text.split(' ') if token)
