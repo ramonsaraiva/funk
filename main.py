@@ -9,7 +9,7 @@ from text.processing import (
 
 
 def load_songs():
-    with open('dataset/songs.csv', 'r') as dataset:
+    with open('dataset/songs.csv', 'r', encoding='utf-8') as dataset:
         dataset_reader = csv.reader(dataset, delimiter=',')
         next(dataset_reader)  # who needs headers?
         for song in dataset_reader:
@@ -50,14 +50,14 @@ def main():
     sorted_by_ratio = sorted(
         data, key=lambda x: x['compression_ratio'], reverse=True)
     for song_data in sorted_by_ratio:
-        print(
+        print(','.join([
             song_data['song'],
             song_data['author'],
-            song_data['size'],
-            song_data['compressed_size'],
+            str(song_data['size']),
+            str(song_data['compressed_size']),
             f'{song_data["compression_ratio"]:.2f}',
             f'{song_data["space_savings"] * 100:.2f}%',
-        )
+        ]))
 
 
 if __name__ == '__main__':
