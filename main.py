@@ -34,7 +34,8 @@ def apply_compression(songs):
             'lyric_p': lyric_p,
             'tokens': nof_tokens,
             'size': len(lyric_b),
-            'compressed_size': len(compressed_lyric_b)
+            'compressed_size': len(compressed_lyric_b),
+            'compression_ratio': len(lyric_b) / len(compressed_lyric_b)
         })
     return song_data
 
@@ -42,7 +43,10 @@ def apply_compression(songs):
 def main():
     songs = load_songs()
     compression_data = apply_compression(songs)
-    print(compression_data)
+    ratios = [(c['song'], c['compression_ratio']) for c in compression_data]
+    ratios = sorted(ratios, key=lambda x: x[1], reverse=True)
+    import pprint
+    print(pprint.pprint(ratios))
 
 
 if __name__ == '__main__':
