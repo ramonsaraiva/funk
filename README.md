@@ -2,7 +2,7 @@
 
 ## Funk music is stuck on repeat
 
-This is an application of Colin Morris' TED "Pop Music is Stuck on Repeat" theory to Brazilian funk/pop top hits.
+This is an application of Colin Morris' TED ("Pop Music is Stuck on Repeat")[https://www.youtube.com/watch?v=_tjFwcmHy5M] theory to Brazilian funk/pop top hits.
 
 ## Dataset
 
@@ -29,7 +29,7 @@ hello there
 
 ## Compression
 
-Measuring a song repetitiveness is a simple as compressing it. Repetitive lyrics are redundant and good compression algorithms can exploit redundancy at scale to shrink text more efficiently.
+Measuring a song repetitiveness is as simple as compressing it. Repetitive lyrics are redundant and good compression algorithms can exploit redundancy at scale to shrink text more efficiently.
 
 I used the Python's stdlib `zlib` library. [zlib](https://zlib.net/) supports one algorithm called DEFLATE, that is a variation of LZ77 (Lempel-Ziv 1977). This algorithm provides good compression on a wide variety of data with minimal use of system resources. This is also the algorithm used in the ZIP archive format.
 
