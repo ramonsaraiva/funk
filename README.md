@@ -2,7 +2,7 @@
 
 ## Funk music is stuck on repeat
 
-This is an application of Colin Morris' TED ("Pop Music is Stuck on Repeat")[https://www.youtube.com/watch?v=_tjFwcmHy5M] theory to Brazilian funk/pop top hits.
+This is an application of Colin Morris' TED ["Pop Music is Stuck on Repeat"](https://www.youtube.com/watch?v=_tjFwcmHy5M) theory to Brazilian funk/pop top hits.
 
 ## Dataset
 
